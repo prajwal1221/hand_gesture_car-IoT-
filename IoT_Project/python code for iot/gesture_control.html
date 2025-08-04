@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture Control</title>
+</head>
+<body>
+    <h2>Gesture Control Active</h2>
+    
+    <!-- Video Feed -->
+    <img id="video-feed" src="{{ url_for('video_feed') }}" width="640" height="480">
+
+    <!-- Command Logs -->
+    <h3>Command Logs:</h3>
+    <div id="log-box" style="border: 1px solid black; width: 300px; height: 200px; overflow-y: auto;"></div>
+
+    <script>
+        // WebSocket connection to receive commands
+        var socket = new WebSocket("ws://localhost:8765");
+
+        socket.onmessage = function(event) {
+            var logBox = document.getElementById("log-box");
+            var newMessage = document.createElement("p");
+            newMessage.textContent = event.data;
+            logBox.appendChild(newMessage);
+            logBox.scrollTop = logBox.scrollHeight;
+        };
+    </script>
+</body>
+</html>
